@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/Listen_Now_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_round_play"
+        android:title="Listen Now"/>
+    <item
+        android:id="@+id/Browse_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_browse"
+        android:title="Browse"/>
+    <item
+        android:id="@+id/Library_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_library"
+        android:title="Library"/>
+    <item
+        android:id="@+id/Search_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_search"
+        android:title="Search"/>
+</menu>
