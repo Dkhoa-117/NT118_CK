@@ -1,50 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--DONE-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp">
+
         <ImageView
-            android:id="@+id/iv_song_tab_SongImg"
+            android:id="@+id/song_tab_SongImg"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
             android:background="@drawable/background"
-            android:padding="5dp"
-            android:src="@drawable/ic_music" />
+            android:src="@drawable/ic_music"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_song_tab_SongName"
+            android:id="@+id/song_tab_SongName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="5dp"
-            android:layout_toEndOf="@+id/iv_song_tab_SongImg"
+            android:singleLine="true"
+            android:text="PLay Your Rhythm"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:text="Best Song Ever" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_btn_song_tab_Play"
+            app:layout_constraintStart_toEndOf="@+id/song_tab_SongImg"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/img_btn_song_tab_Play"
-            android:src="@drawable/ic_play_music"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/song_tab_SongImg"
             android:background="@null"
             android:scaleType="fitCenter"
-            android:layout_centerInParent="true"
-            android:layout_toEndOf="@id/iv_song_tab_SongImg"
-            android:layout_marginStart="220dp"/>
+            android:src="@drawable/ic_play_music"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_btn_song_tab_Forward"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageButton
             android:id="@+id/img_btn_song_tab_Forward"
-            android:src="@drawable/ic_forward"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_centerVertical="true"
             android:background="@null"
             android:scaleType="fitCenter"
-            android:layout_centerInParent="true"
-            android:layout_toEndOf="@id/img_btn_song_tab_Play"
-            android:layout_marginStart="5dp"/>
-</RelativeLayout>
+            android:src="@drawable/ic_forward"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

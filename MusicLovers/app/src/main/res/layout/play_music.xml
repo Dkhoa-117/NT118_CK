@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/play_music"
+<!--DONE-->
+<LinearLayout android:id="@+id/play_music"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/bottom_sheet_behavior"
@@ -9,9 +9,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10"
-    android:orientation="vertical">
+    android:background="#FFF"
+    android:orientation="vertical"
+    xmlns:tool="http://schemas.android.com/tools">
 
-//      **note: the id can be overlap
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_weight="6"
         android:layout_width="match_parent"
@@ -24,21 +25,26 @@
             android:layout_height="50dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_up"
+            android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_play_music_SongImg"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/background"
-            android:src="@drawable/ic_music"
+        <androidx.cardview.widget.CardView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" /> //**note: may replace this image
+            android:layout_marginBottom="40dp"
+            app:cardCornerRadius="10dp">
+            <ImageView
+                android:id="@+id/play_music_SongImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background"/>
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -49,23 +55,23 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"> //can be 10dp
+            android:padding="5dp">
 
             <TextView
-                android:id="@+id/tv_play_music_SongName"
+                android:id="@+id/play_music_SongName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:text="Best Song Ever"
-                android:textSize="20sp"
+                android:text="No Song is Playing Now"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/img_btn_option"
+                android:id="@+id/play_music_BtnOption"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginEnd="15dp"
@@ -75,23 +81,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
             <TextView
-                android:id="@+id/tv_play_music_SingerName"
+                android:id="@+id/play_music_SingerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="One Direction"
-                android:textSize="15sp"
+                android:text=". . ."
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_play_music_SongName" />
+                app:layout_constraintTop_toBottomOf="@+id/play_music_SongName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:gravity="center"
             android:weightSum="10"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/tvSongStart"
+                android:id="@+id/play_music_SongStart"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="00:00"
@@ -100,12 +107,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <SeekBar
-                android:id="@+id/seekbarSong"
+                android:id="@+id/play_music_SeekbarSong"
                 android:layout_weight="9"
+                android:thumbTint="@color/shiraz"
+                android:progressTint="@color/shiraz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/tvSongEnd"
+                android:id="@+id/play_music_SongEnd"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="00:00"
@@ -122,14 +131,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageButton
-                android:id="@+id/img_btn_play_music_Backward"
+                android:id="@+id/play_music_BtnBackward"
                 android:src="@drawable/ic_backward"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@null"
                 android:scaleType="fitXY"/>
             <ImageButton
-                android:id="@+id/img_btn_play_music_Play"
+                android:id="@+id/play_music_BtnPlay"
                 android:src="@drawable/ic_play_music"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -138,7 +147,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"/>
             <ImageButton
-                android:id="@+id/img_btn_play_music_Forward"
+                android:id="@+id/play_music_BtnForward"
                 android:src="@drawable/ic_forward"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -158,8 +167,10 @@
                 android:layout_weight="1.5"
                 android:src="@drawable/ic_mute"/>
             <SeekBar
-                android:id="@+id/seekbarVolume"
+                android:id="@+id/play_music_SeekbarVolume"
                 android:layout_weight="7"
+                android:progressTint="@color/shiraz"
+                android:thumbTint="@color/shiraz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <ImageView
