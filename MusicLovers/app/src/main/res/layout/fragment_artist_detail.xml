@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DONE -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_artist_detail"
+    android:layout_width="match_parent"
+    android:background="#EDC9D2"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/fragment_artist_detail_AppBarLayout"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/fragment_artist_detail_CollapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="bottom"
+            app:expandedTitleMarginBottom="20dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:title="Artist Name">
+
+            <ImageView
+                android:id="@+id/fragment_artist_detail_PlaylistImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center|end"
+                app:layout_collapseMode="parallax"
+                tools:src="@tools:sample/avatars[4]"/>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/fragment_artist_detail_Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="10dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView_TopSongs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top Songs"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_artist_detail_ArtistTopSongsRecycleView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_TopSongs" />
+
+
+            <TextView
+                android:id="@+id/fragment_artist_detail_see_more_songs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="See More"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_TopSongs"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView_TopSongs"
+                android:layout_marginEnd="20dp"/>
+            <View
+                style="@style/Divider"
+                app:layout_constraintBottom_toTopOf="@id/textView_Albums"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="5dp"/>
+            <TextView
+                android:id="@+id/textView_Albums"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Albums"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintTop_toBottomOf="@id/fragment_artist_detail_ArtistTopSongsRecycleView"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_artist_detail_ArtistAlbumsRecycleView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_Albums" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

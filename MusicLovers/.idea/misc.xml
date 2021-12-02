@@ -4,9 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/drawable/background.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/drawable/ic_music.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/drawable/ic_pause.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/drawable/ic_round_play.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/layout/album_format.xml" value="0.1213768115942029" />
         <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/layout/albums_list.xml" value="0.1213768115942029" />
+        <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/layout/artist_format.xml" value="0.1213768115942029" />
         <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/layout/fragment_album_detail.xml" value="0.1213768115942029" />
+        <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/layout/fragment_artist_detail.xml" value="0.1213768115942029" />
+        <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/layout/fragment_artists.xml" value="0.1213768115942029" />
         <entry key="..\:/Users/dangdo1364/Desktop/NT118_CK/MusicLovers/app/src/main/res/layout/fragment_browse.xml" value="0.1213768115942029" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/background.xml" value="0.165" />

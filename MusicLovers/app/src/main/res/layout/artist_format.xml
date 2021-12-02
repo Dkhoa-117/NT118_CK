@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DONE -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_margin="15dp"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/artist_format_ArtistImg"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@color/shiraz_variant"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
+
+    <TextView
+        android:id="@+id/artist_format_ArtistName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Artist Name"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:paddingLeft="10dp"/>
+</LinearLayout>
