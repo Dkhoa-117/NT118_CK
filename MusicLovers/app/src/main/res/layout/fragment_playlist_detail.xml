@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_album_detail"
+    android:layout_width="match_parent"
+    android:background="#EDC9D2"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/fragment_playlist_detail_AppBarLayout"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/fragment_playlist_detail_CollapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="center|bottom"
+            app:expandedTitleMarginBottom="60dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:title="Playlist Name">
+
+            <ImageView
+                android:id="@+id/fragment_playlist_detail_PlaylistImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center|end"
+                app:layout_collapseMode="parallax"
+                tools:src="@drawable/ic_fill_heart"/>
+
+            <TextView
+                android:id="@+id/fragment_playlist_detail_PlaylistOwner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Playlist Owner"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="30dp"/>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/fragment_playlist_detail_Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="10dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_playlist_detail_PlaylistRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/song_format">
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fragment_playlist_detail_PLayBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_anchor="@id/fragment_playlist_detail_AppBarLayout"
+        app:layout_anchorGravity="center|bottom"
+        android:backgroundTint="@color/shiraz_variant"
+        android:text="PLAY"
+        android:textColor="@color/white"
+        android:textAlignment="center"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fragment_playlist_detail_AddSong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:tint="@color/white"
+        android:src="@drawable/ic_add"
+        app:layout_anchor="@id/fragment_playlist_detail_AppBarLayout"
+        app:layout_anchorGravity="end|bottom"
+        android:backgroundTint="@color/shiraz_variant"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
