@@ -3,10 +3,12 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,17 +17,40 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.musiclovers.DownloadImageTask;
 import com.example.musiclovers.MainActivity;
+import com.example.musiclovers.PlaceHolder;
 import com.example.musiclovers.R;
+import com.example.musiclovers.listAdapter.bannerAdapter;
+import com.example.musiclovers.listAdapter.categoriesListAdapter;
+import com.example.musiclovers.models.playlistItem;
 import com.example.musiclovers.signIn_signUpActivity.SaveSharedPreference;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.ArrayList;
+import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import me.relex.circleindicator.CircleIndicator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/**
+ * DONE
+ */
 public class listenNowFragment extends Fragment {
     CircleImageView CImgProfile;
     Dialog dialog;
+    RecyclerView.LayoutManager parentLayoutManager;
+    ArrayList<String> categories = new ArrayList<>();
+    Runnable runnable;
+    Handler handler;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +74,57 @@ public class listenNowFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 showDialog();
+            }
+        });
+
+        categories.add("Recently Played");
+        categories.add("Your Favorite");
+        RecyclerView parentRecyclerView = view.findViewById(R.id.listen_now_parentRecycleView);
+        parentRecyclerView.setHasFixedSize(true);
+        parentLayoutManager = new LinearLayoutManager(getContext());
+        categoriesListAdapter categoriesListAdapter = new categoriesListAdapter(categories, getActivity());
+        parentRecyclerView.setLayoutManager(parentLayoutManager);
+        parentRecyclerView.setAdapter(categoriesListAdapter);
+        categoriesListAdapter.notifyDataSetChanged();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:3000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        PlaceHolder placeHolder = retrofit.create(PlaceHolder.class);
+        ViewPager banner = view.findViewById(R.id.banner);
+        CircleIndicator circleIndicator = view.findViewById(R.id.banner_indicator);
+        Call<List<playlistItem>> call = placeHolder.getPlaylistsByUser(SaveSharedPreference.getId(getContext()));
+
+        call.enqueue(new Callback<List<playlistItem>>() {
+            @Override
+            public void onResponse(Call<List<playlistItem>> call, Response<List<playlistItem>> response) {
+                if(response.isSuccessful()){
+                    ArrayList<playlistItem> Banners = (ArrayList<playlistItem>) response.body();
+                    bannerAdapter bannerAdapter = new bannerAdapter(getActivity(), Banners);
+                    banner.setAdapter(bannerAdapter);
+                    circleIndicator.setViewPager(banner);
+
+                    handler = new Handler();
+                    runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            int currentItem = banner.getCurrentItem();
+                            currentItem++;
+                            if(currentItem>=banner.getAdapter().getCount()){
+                                currentItem=0;
+                            }
+                            banner.setCurrentItem(currentItem,true);
+                            handler.postDelayed(runnable,4500);
+                        }
+                    };
+                    handler.postDelayed(runnable,4500);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<playlistItem>> call, Throwable t) {
+
             }
         });
     }

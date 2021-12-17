@@ -110,15 +110,11 @@ public class albumDetailFragment extends Fragment {
                             R.id.song_format_ArtistName,
                             R.id.song_format_SongImg,
                             songItems,
+                            3, /* add song to playing next & playlist AVAILABLE */
                             getContext());
                     mRecyclerView.setAdapter(mAdapter);
 
-                    btnPlayAll.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ((MainActivity)getActivity()).getSongs(songItems, 0);
-                        }
-                    });
+                    btnPlayAll.setOnClickListener(view1 -> ((MainActivity)getActivity()).getSongs(songItems, 0));
                 }
                 @Override
                 public void onFailure(@NonNull Call<List<songItem>> call, Throwable t) {

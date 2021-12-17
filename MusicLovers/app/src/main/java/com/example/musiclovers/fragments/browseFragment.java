@@ -18,6 +18,9 @@ import com.example.musiclovers.listAdapter.categoriesListAdapter;
 
 import java.util.ArrayList;
 
+/**
+ * DONE
+ */
 public class browseFragment extends Fragment {
     RecyclerView.LayoutManager parentLayoutManager;
     ArrayList<String> categories = new ArrayList<>();
@@ -40,8 +43,8 @@ public class browseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        categories.add("New Musics");
-        categories.add("New Musics"); //add to test the form of Browser Fragment
+        categories.add("New Music");
+        categories.add("Best New Songs"); //add to test the form of Browser Fragment
         categories.add("New Albums");
         categories.add("Today Top Hits");
         RecyclerView parentRecyclerView = view.findViewById(R.id.parentRecycleView);
@@ -53,4 +56,3 @@ public class browseFragment extends Fragment {
         categoriesListAdapter.notifyDataSetChanged();
     }
 }
-

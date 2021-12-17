@@ -1,4 +1,5 @@
 package com.example.musiclovers.fragments;
+
 import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
@@ -33,6 +34,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * DONE
+ */
 public class searchFragment extends Fragment {
     SearchView searchView;
     RecyclerView recyclerView;
@@ -46,7 +50,7 @@ public class searchFragment extends Fragment {
     TabLayout tabBar;
     Retrofit retrofit;
     PlaceHolder placeHolder;
-    String searchString;
+    String searchString = "";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,19 +125,19 @@ public class searchFragment extends Fragment {
                 if(tab == tabSongs){
                     if(!songItems.isEmpty()){
                         recyclerView.setAdapter(songsAdapter);
-                    }else{
+                    }else if (!searchString.isEmpty()){
                         searchSongs(searchString);
                     }
                 }else if(tab == tabAlbums){
                     if(!albumItems.isEmpty()){
                         recyclerView.setAdapter(albumsAdapter);
-                    }else{
+                    }else if(!searchString.isEmpty()){
                         searchAlbums(searchString);
                     }
                 }else if(tab == tabArtists){
                     if(!artistItems.isEmpty()){
                         recyclerView.setAdapter(artistsAdapter);
-                    }else{
+                    }else if(!searchString.isEmpty()){
                         searchArtists(searchString);
                     }
                 }
@@ -166,6 +170,7 @@ public class searchFragment extends Fragment {
                         R.id.song_format_ArtistName,
                         R.id.song_format_SongImg,
                         songItems,
+                        3, /* add song to playing next & playlist AVAILABLE */
                         getContext());
                 recyclerView.setAdapter(songsAdapter);
                 textViewThumbnail.setVisibility(View.VISIBLE);

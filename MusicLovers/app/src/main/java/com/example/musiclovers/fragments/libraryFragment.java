@@ -108,13 +108,14 @@ public class libraryFragment extends Fragment {
                         R.id.song_format_ArtistName,
                         R.id.song_format_SongImg,
                         songItems,
+                        3, /* add song to playing next & playlist AVAILABLE - might be something else*/
                         getContext());
                 mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override
             public void onFailure(Call<List<songItem>> call, Throwable t) {
-                Toast.makeText(getContext(), "error", Toast.LENGTH_LONG);
+                Toast.makeText(getContext(), "error", Toast.LENGTH_LONG).show();
             }
         });
 

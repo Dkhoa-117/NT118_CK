@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.example.musiclovers.PlaceHolder;
 import com.example.musiclovers.R;
 import com.example.musiclovers.ViewModel;
 import com.example.musiclovers.listAdapter.songsListAdapter;
+import com.example.musiclovers.models.playlistItem;
 import com.example.musiclovers.models.songItem;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -43,6 +45,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class playlistDetailFragment extends Fragment {
     RecyclerView mRecyclerView;
     songsListAdapter mAdapter;
+    public playlistItem playlist;
     PlaceHolder placeHolder;
     ViewModel viewModel;
     TextView playlistOwner;
@@ -78,13 +81,14 @@ public class playlistDetailFragment extends Fragment {
 
         //Passing data from Playlist fragment
         viewModel.getSelectedPlaylist().observe(getViewLifecycleOwner(), playlistItem -> {
+            playlist = playlistItem;
             CharSequence sequence = (playlistItem.getPlaylistName());
             playlistOwner.setText(playlistItem.get_id());
             collapsingToolbarLayout.setTitle(sequence);
             ImageView playlistImg = view.findViewById(R.id.fragment_playlist_detail_PlaylistImg);
             mRecyclerView = view.findViewById(R.id.fragment_playlist_detail_PlaylistRecycleView);
             mRecyclerView.setHasFixedSize(true);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(playlistDetailFragment.this.getContext()));
             String base_Url = "http://10.0.2.2:3000/";
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(base_Url)
@@ -97,8 +101,8 @@ public class playlistDetailFragment extends Fragment {
             call.enqueue(new Callback<List<songItem>>() {
                 @Override
                 public void onResponse(@NonNull Call<List<songItem>> call, @NonNull Response<List<songItem>> response) {
-                    if(!response.isSuccessful()) {
-                        Toast.makeText(getContext(), "code: "+ response.code(), Toast.LENGTH_SHORT).show();
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(getContext(), "code: " + response.code(), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     ArrayList<songItem> songItems = (ArrayList<songItem>) response.body();
@@ -109,16 +113,18 @@ public class playlistDetailFragment extends Fragment {
                             R.id.song_format_ArtistName,
                             R.id.song_format_SongImg,
                             songItems,
+                            1, /* remove from playlist */
                             getContext());
                     mRecyclerView.setAdapter(mAdapter);
-
+                    mAdapter.base = playlistDetailFragment.this;
                     btnPlayAll.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View view) {
-                            ((MainActivity)getActivity()).getSongs(songItems, 0);
+                        public void onClick(View view1) {
+                            ((MainActivity) getActivity()).getSongs(songItems, 0);
                         }
                     });
                 }
+
                 @Override
                 public void onFailure(@NonNull Call<List<songItem>> call, Throwable t) {
                     Toast.makeText(getContext(), "error", Toast.LENGTH_LONG).show();
@@ -128,7 +134,7 @@ public class playlistDetailFragment extends Fragment {
             //Adding Song
             addSong.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view1) {
 
                 }
             });

@@ -16,7 +16,9 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
+/**
+ * DONE
+ */
 public interface PlaceHolder {
     // 👇 GET 👇
     @GET("songs")
@@ -36,6 +38,12 @@ public interface PlaceHolder {
 
     @GET("songs/album/{albumId}")
     Call<List<songItem>> getSongsByAlbum (@Path("albumId") String albumId);
+
+    @GET("songs/{category}")
+    Call<List<songItem>> getSongsByCategory (@Path("category") String category); //new-music * best-new-songs *
+
+    @GET("albums/{category}")
+    Call<List<albumItem>> getAlbumsByCategory (@Path("category") String category); //new-albums * hot-albums *
 
     @GET("songs/artist/{artistId}")
     Call<List<songItem>> getSongsByArtist (@Path("artistId") String artistId);
@@ -106,10 +114,22 @@ public interface PlaceHolder {
             @Field("songId") String songId
     );
 
+    @FormUrlEncoded
+    @POST("songs/recent")
+    Call<Void> addSong2RecentList(
+            @Field("userId") String userId,
+            @Field("songId") String songId
+    );
+
     // 👇 DELETE 👇
-    @DELETE("playlist/{playlistId}/songs/{songId}")
+    @DELETE("playlists/{playlistId}/songs/{songId}")
     Call<Void> removeSongInPlaylist(
             @Path("playlistId") String playlistId,
             @Path("songId") String songId
+    );
+
+    @DELETE("playlists/{playlistId}")
+    Call<Void> deletePlaylist(
+            @Path("playlistId") String playlistId
     );
 }

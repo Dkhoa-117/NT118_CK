@@ -13,6 +13,10 @@ public class playlistItem {
         return _id;
     }
 
+    public void setNumSongs(int numSongs) {
+        this.numSongs = numSongs;
+    }
+
     public String getPlaylistName() {
         return playlistName;
     }

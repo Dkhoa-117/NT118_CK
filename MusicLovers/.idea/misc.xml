@@ -19,11 +19,28 @@
         <entry key="app/src/main/res/drawable/ic_backward.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/ic_mute.xml" value="0.2324074074074074" />
+        <entry key="app/src/main/res/drawable/ic_repeat.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_repeat_off.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_shuffle.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_shuffle_off.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2189161258787049" />
         <entry key="app/src/main/res/layout/background.xml" value="0.1983695652173913" />
+        <entry key="app/src/main/res/layout/banner_format.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_new_playlist.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_playlists.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_user_info.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_listen_now.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_lyrics.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_playing_next.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_playlists.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/play_music.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/recyclerview.xml" value="0.1" />
         <entry key="app/src/main/res/layout/song_tab.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/toast_custom.xml" value="0.1" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.24722222222222223" />
+        <entry key="app/src/main/res/menu/long_click_song_option_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/play_music_option_menu.xml" value="0.1" />
       </map>
     </option>
   </component>

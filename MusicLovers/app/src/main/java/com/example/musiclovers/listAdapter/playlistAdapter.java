@@ -15,7 +15,9 @@ import com.example.musiclovers.DownloadImageTask;
 import com.example.musiclovers.R;
 import com.example.musiclovers.models.playlistItem;
 import java.util.ArrayList;
-
+/**
+ * DONE
+ */
 public class playlistAdapter extends ArrayAdapter<playlistItem> {
     private Context context;
     int layoutHolder, tvName, tvNumSongs, ivImage;

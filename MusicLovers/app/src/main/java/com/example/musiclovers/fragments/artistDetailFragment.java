@@ -41,6 +41,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * DONE
+ */
 public class artistDetailFragment extends Fragment {
     private TextView seeMoreSongs;
     private RecyclerView albumsRecyclerView;
@@ -207,6 +210,7 @@ public class artistDetailFragment extends Fragment {
                         R.id.song_format_ArtistName,
                         R.id.song_format_SongImg,
                         songItems1,
+                        3, /* add song to playing next & playlist AVAILABLE */
                         context);
                 holder.childRecyclerView.setAdapter(mAdapter);
             }
@@ -217,6 +221,7 @@ public class artistDetailFragment extends Fragment {
                         R.id.song_format_ArtistName,
                         R.id.song_format_SongImg,
                         songItems2,
+                        3, /* add song to playing next & playlist AVAILABLE */
                         context);
                 holder.childRecyclerView.setAdapter(mAdapter);
             }

@@ -33,6 +33,7 @@ import com.example.musiclovers.ViewModel;
 import com.example.musiclovers.listAdapter.playlistAdapter;
 import com.example.musiclovers.models.playlistItem;
 import com.example.musiclovers.signIn_signUpActivity.SaveSharedPreference;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
+/**
+ * DONE
+ */
 public class playlistsFragment extends Fragment {
 
-    ArrayList<playlistItem> playlistItems = new ArrayList<>();
+    public ArrayList<playlistItem> playlistItems = new ArrayList<>();
     PlaceHolder placeHolder;
     ConstraintLayout createNewPlaylist;
     playlistAdapter adapter;
@@ -98,10 +101,34 @@ public class playlistsFragment extends Fragment {
                         ViewModel viewModel = new ViewModelProvider((MainActivity)getContext()).get(ViewModel.class);
                         viewModel.select(playlistItems.get(i));
                         ((FragmentActivity) view.getContext()).getSupportFragmentManager().beginTransaction()
-                                .add(R.id.fragment_container, new playlistDetailFragment())
+                                .replace(R.id.fragment_container, new playlistDetailFragment())//
                                 .addToBackStack(null)
                                 .setReorderingAllowed(true)
                                 .commit();
+                    }
+                });
+                playlistListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Call<Void> call2Delete = placeHolder.deletePlaylist(playlistItems.get(i).get_id());
+                        call2Delete.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if(response.isSuccessful()){
+                                    playlistItems.remove(i);
+                                    adapter.notifyDataSetChanged();
+                                    Toast.makeText(getContext(), "Playlist Deleted !", Toast.LENGTH_LONG).show();
+                                }else{
+                                    Toast.makeText(getContext(), "Error 😥", Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getContext(), "Error 😥", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        return true;
                     }
                 });
             }
@@ -111,8 +138,8 @@ public class playlistsFragment extends Fragment {
                 Toast.makeText(getContext(), "error", Toast.LENGTH_LONG).show();
             }
         });
-        createNewPlaylist = view.findViewById(R.id.addNewPlayList);
-        createNewPlaylist.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton btnCreateNewPlaylist = view.findViewById(R.id.fragment_playlists_CreateNewPlaylist);
+        btnCreateNewPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Dialog dialog = new Dialog(getContext());
@@ -127,7 +154,7 @@ public class playlistsFragment extends Fragment {
                         Toast.makeText(getContext(), "Invalid Name", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    Call<playlistItem> call = placeHolder.createPlaylist(playlistName, SaveSharedPreference.getUserName(getContext()));
+                    Call<playlistItem> call = placeHolder.createPlaylist(playlistName, SaveSharedPreference.getId(getContext()));
                     call.enqueue(new Callback<playlistItem>() {
                         @Override
                         public void onResponse(Call<playlistItem> call, Response<playlistItem> response) {
@@ -151,5 +178,11 @@ public class playlistsFragment extends Fragment {
                 dialog.show();
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }

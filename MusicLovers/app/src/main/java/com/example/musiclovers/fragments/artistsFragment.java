@@ -29,6 +29,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * DONE
+ */
 public class artistsFragment extends Fragment {
 
     ArrayList<artistItem> artistItems = new ArrayList<>();

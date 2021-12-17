@@ -18,8 +18,16 @@
         android:id="@+id/sheet_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <include layout="@layout/play_music" />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:behavior_peekHeight="10dp"
+            android:background="#FFF"
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            app:behavior_hideable="true"
+            android:clickable="true"
+            android:focusable="true"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <LinearLayout

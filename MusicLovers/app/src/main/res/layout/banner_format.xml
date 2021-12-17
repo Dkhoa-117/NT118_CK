@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/banner_format_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="fitXY"
+        android:textIsSelectable="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:textIsSelectable="true" />
+    <RelativeLayout
+        android:layout_alignBottom="@id/banner_format_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true">
+
+        <ImageView
+            android:id="@+id/banner_format_banner_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="2dp"
+            android:textIsSelectable="true" />
+        <TextView
+            android:id="@+id/banner_format_thumbnail"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:text="lo yeu mat roi"
+            android:textSize="17dp"
+            android:layout_toRightOf="@id/banner_format_banner_image"
+            android:layout_alignTop="@id/banner_format_banner_image"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true" />
+        <RelativeLayout
+            android:layout_toRightOf="@id/banner_format_banner_image"
+            android:layout_below="@id/banner_format_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textIsSelectable="true">
+            <TextView
+                android:id="@+id/banner_format_description"
+                android:textColor="#fffdfc"
+                android:text="ca khuc moi cua ca si hot nhat hien nay 123456 la bai hat"
+                android:maxLines="2"
+                android:layout_marginRight="40dp"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textIsSelectable="true"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

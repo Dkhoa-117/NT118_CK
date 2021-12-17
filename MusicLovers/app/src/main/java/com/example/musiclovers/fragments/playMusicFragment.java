@@ -27,7 +27,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- *
+ * DONE
  */
 public class playMusicFragment extends Fragment implements MainActivity.UpdateFragmentPlayMusic {
     String base_Url = "http://10.0.2.2:3000/";
@@ -94,8 +94,7 @@ public class playMusicFragment extends Fragment implements MainActivity.UpdateFr
             popup.show();
             popup.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()) {
-                    case R.id.add_to_playlist:
-                        //add song to playlist
+                    case R.id.add_to_playlist_PlayMusic:
                         if(!songList.isEmpty()) {
                             ((MainActivity) getContext()).addSongToPlaylist(songList.get(position));
                         }
