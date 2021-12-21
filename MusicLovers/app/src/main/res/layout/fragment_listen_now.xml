@@ -50,23 +50,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <me.relex.circleindicator.CircleIndicator
                     android:id="@+id/banner_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="13dp"
-                    android:layout_alignParentRight="true" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp" />
-            </RelativeLayout>
+                    android:layout_height="250dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listen_now_parentRecycleView"

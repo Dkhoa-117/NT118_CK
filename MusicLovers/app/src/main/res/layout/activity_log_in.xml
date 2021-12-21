@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- DONE -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -79,9 +80,9 @@
         android:id="@+id/activity_login_create_account"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="90dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="90dp"
         android:backgroundTint="@color/white"
         android:text="Create new Account"
         android:textColor="@color/black"
@@ -102,7 +103,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
-            android:indeterminateTint="@color/shiraz_variant"
+            android:indeterminateTint="@color/shiraz"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
