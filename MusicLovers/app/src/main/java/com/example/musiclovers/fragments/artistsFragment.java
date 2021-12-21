@@ -19,6 +19,7 @@ import com.example.musiclovers.listAdapter.artistsAdapter;
 import com.example.musiclovers.listAdapter.playlistAdapter;
 import com.example.musiclovers.models.artistItem;
 import com.example.musiclovers.models.playlistItem;
+import com.example.musiclovers.signIn_signUpActivity.SaveSharedPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +37,13 @@ public class artistsFragment extends Fragment {
 
     ArrayList<artistItem> artistItems = new ArrayList<>();
     PlaceHolder placeHolder;
+    artistsAdapter artistAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TransitionInflater inflater = TransitionInflater.from(requireContext());
-        setExitTransition(inflater.inflateTransition(R.transition.fade));
+        setEnterTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     @Nullable
@@ -59,7 +61,7 @@ public class artistsFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         placeHolder = retrofit.create(PlaceHolder.class);
-        Call<List<artistItem>> call = placeHolder.getArtists();
+        Call<List<artistItem>> call = placeHolder.getArtistsByUser(SaveSharedPreference.getId(getContext()));
         call.enqueue(new Callback<List<artistItem>>() {
             @Override
             public void onResponse(Call<List<artistItem>> call, Response<List<artistItem>> response) {
@@ -68,17 +70,17 @@ public class artistsFragment extends Fragment {
                     return;
                 }
                 artistItems = (ArrayList<artistItem>) response.body();
-                RecyclerView playlistRecyclerView = view.findViewById(R.id.fragment_artists_RecyclerView);
-                playlistRecyclerView.setHasFixedSize(true);
-                playlistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                artistsAdapter artistAdapter = new artistsAdapter(
+                RecyclerView artistRecyclerView = view.findViewById(R.id.fragment_artists_RecyclerView);
+                artistRecyclerView.setHasFixedSize(true);
+                artistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                artistAdapter = new artistsAdapter(
                         R.layout.artist_format,
                         R.id.artist_format_ArtistName,
                         R.id.artist_format_ArtistImg,
                         artistItems,
                         getContext()
                 );
-                playlistRecyclerView.setAdapter(artistAdapter);
+                artistRecyclerView.setAdapter(artistAdapter);
             }
 
             @Override
@@ -86,5 +88,12 @@ public class artistsFragment extends Fragment {
                 Toast.makeText(getContext(), "error", Toast.LENGTH_LONG);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(artistAdapter != null)
+            artistAdapter.notifyDataSetChanged();
     }
 }
