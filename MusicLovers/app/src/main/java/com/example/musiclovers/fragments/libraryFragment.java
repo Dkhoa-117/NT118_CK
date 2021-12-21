@@ -1,6 +1,9 @@
 package com.example.musiclovers.fragments;
 
+import android.Manifest;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +24,18 @@ import com.example.musiclovers.MainActivity;
 import com.example.musiclovers.PlaceHolder;
 import com.example.musiclovers.R;
 import com.example.musiclovers.ViewModel;
+import com.example.musiclovers.models.playlistItem;
 import com.example.musiclovers.models.songItem;
 import com.example.musiclovers.listAdapter.songsListAdapter;
+import com.example.musiclovers.signIn_signUpActivity.SaveSharedPreference;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +75,7 @@ public class libraryFragment extends Fragment {
             public void onClick(View view) {
                 ((FragmentActivity) view.getContext()).getSupportFragmentManager().beginTransaction()
                         .add(R.id.fragment_container, new playlistsFragment())
-                        .addToBackStack(null)
+                        .addToBackStack("null")
                         .setReorderingAllowed(true)
                         .commit();
             }
@@ -82,42 +94,91 @@ public class libraryFragment extends Fragment {
             }
         });
 
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.fragment_library_AllSongs);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        String base_Url = "http://10.0.2.2:3000/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(base_Url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        PlaceHolder placeHolder = retrofit.create(PlaceHolder.class);
-        Call<List<songItem>> call = placeHolder.getSongs();
-        call.enqueue(new Callback<List<songItem>>() {
+        //genre
+        ConstraintLayout genre = view.findViewById(R.id.fragment_library_Genre);
+        genre.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<List<songItem>> call, Response<List<songItem>> response) {
-                if(!response.isSuccessful()) {
-                    Toast.makeText(getContext(), "code: "+ response.code(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ArrayList<songItem> songItems = (ArrayList<songItem>) response.body();
-
-                mAdapter = new songsListAdapter(
-                        R.layout.song_format,
-                        R.id.song_format_SongName,
-                        R.id.song_format_ArtistName,
-                        R.id.song_format_SongImg,
-                        songItems,
-                        3, /* add song to playing next & playlist AVAILABLE - might be something else*/
-                        getContext());
-                mRecyclerView.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<songItem>> call, Throwable t) {
-                Toast.makeText(getContext(), "error", Toast.LENGTH_LONG).show();
+            public void onClick(View view) {
+                ((FragmentActivity) view.getContext()).getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, new genresFragment())
+                        .addToBackStack(null)
+                        .setReorderingAllowed(true)
+                        .commit();
             }
         });
 
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.fragment_library_AllSongs);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        runtimePermission();
+    }
+    public void runtimePermission(){
+        Dexter.withContext(getContext()).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        displaySongs();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                }).check();
+    }
+    public ArrayList<File> findSong(File file) {
+        ArrayList songsSrc = new ArrayList();
+        File [] files = file.listFiles();
+        if(files != null) {
+            for (File singleFile : files) {
+                if (singleFile.isDirectory() && !singleFile.isHidden()) {
+                    songsSrc.addAll(findSong(singleFile));
+                } else {
+                    if (singleFile.getName().endsWith(".wav")) {
+                        songsSrc.add(singleFile);
+                    } else if (singleFile.getName().endsWith(".mp3")) {
+                        songsSrc.add(singleFile);
+                    }
+                }
+
+            }
+        }
+        return songsSrc;
+    }
+    void displaySongs(){
+        ArrayList<songItem> songList = new ArrayList<>();
+        final ArrayList<File> mySongs = findSong(Environment.getExternalStorageDirectory());
+        String[] items = new String[mySongs.size()];
+        for(int i = 0; i < mySongs.size(); i++){
+            items[i] = mySongs.get(i).getName()
+                    .toString()
+                    .replace(".mp3", "")
+                    .replace("wav", "");
+            String[] name = items[i].split(" - ");
+            String artistName;
+            if(name.length == 1){
+               artistName = "Unknown Artist";
+            }else{
+                artistName = name[1];
+            }
+            songItem song = new songItem(null, name[0], artistName, null,
+                    null, null, 0, mySongs.get(i).toString(), mySongs.get(i).toString());
+            songList.add(song);
+        }
+        //call adapter to display
+        mAdapter = new songsListAdapter(
+                R.layout.song_format,
+                R.id.song_format_SongName,
+                R.id.song_format_ArtistName,
+                R.id.song_format_SongImg,
+                songList,
+                3,
+                getContext());
+        mRecyclerView.setAdapter(mAdapter);
     }
 }
