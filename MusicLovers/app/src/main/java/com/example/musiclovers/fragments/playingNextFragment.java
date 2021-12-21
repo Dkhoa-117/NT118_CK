@@ -117,15 +117,17 @@ public class playingNextFragment extends Fragment implements MainActivity.Update
         }
         nextSongs.clear();
         nextSongs.addAll( ((MainActivity) getContext()).songList);
-        nextSongs.remove(0);
+        if(nextSongs.size() != 0){
+            nextSongs.remove(0);
 
-        if(nextSongs.size() == position){
-            tvNoSongPlayingNext.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        }else{
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.setAdapter(adapter);
+            if(nextSongs.size() == position){
+                tvNoSongPlayingNext.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }else{
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerView.setAdapter(adapter);
+            }
         }
     }
 

@@ -56,6 +56,8 @@ public class listenNowFragment extends Fragment {
         super.onCreate(savedInstanceState);
         TransitionInflater inflater = TransitionInflater.from(requireContext());
         setEnterTransition(inflater.inflateTransition(R.transition.slide_right));
+        categories.add("Recently Played");
+        categories.add("Your Favorite");
     }
 
     @Nullable
@@ -77,15 +79,15 @@ public class listenNowFragment extends Fragment {
             }
         });
 
-        categories.add("Recently Played");
-        categories.add("Your Favorite");
-        RecyclerView parentRecyclerView = view.findViewById(R.id.listen_now_parentRecycleView);
-        parentRecyclerView.setHasFixedSize(true);
-        parentLayoutManager = new LinearLayoutManager(getContext());
-        categoriesListAdapter categoriesListAdapter = new categoriesListAdapter(categories, getActivity());
-        parentRecyclerView.setLayoutManager(parentLayoutManager);
-        parentRecyclerView.setAdapter(categoriesListAdapter);
-        categoriesListAdapter.notifyDataSetChanged();
+        if(savedInstanceState == null){
+            RecyclerView parentRecyclerView = view.findViewById(R.id.listen_now_parentRecycleView);
+            parentRecyclerView.setHasFixedSize(true);
+            parentLayoutManager = new LinearLayoutManager(getContext());
+            categoriesListAdapter categoriesListAdapter = new categoriesListAdapter(categories, getActivity());
+            parentRecyclerView.setLayoutManager(parentLayoutManager);
+            parentRecyclerView.setAdapter(categoriesListAdapter);
+            //categoriesListAdapter.notifyDataSetChanged();
+        }
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:3000/")
@@ -94,8 +96,7 @@ public class listenNowFragment extends Fragment {
         PlaceHolder placeHolder = retrofit.create(PlaceHolder.class);
         ViewPager banner = view.findViewById(R.id.banner);
         CircleIndicator circleIndicator = view.findViewById(R.id.banner_indicator);
-        Call<List<playlistItem>> call = placeHolder.getPlaylistsByUser(SaveSharedPreference.getId(getContext()));
-
+        Call<List<playlistItem>> call = placeHolder.getPlaylistByUser_PlaylistNum("61bf9959d2b2d206fd981469", 2);
         call.enqueue(new Callback<List<playlistItem>>() {
             @Override
             public void onResponse(Call<List<playlistItem>> call, Response<List<playlistItem>> response) {
@@ -112,13 +113,13 @@ public class listenNowFragment extends Fragment {
                             int currentItem = banner.getCurrentItem();
                             currentItem++;
                             if(currentItem>=banner.getAdapter().getCount()){
-                                currentItem=0;
+                                currentItem = 0;
                             }
                             banner.setCurrentItem(currentItem,true);
-                            handler.postDelayed(runnable,4500);
+                            handler.postDelayed(runnable,5500);
                         }
                     };
-                    handler.postDelayed(runnable,4500);
+                    handler.postDelayed(runnable,5500);
                 }
             }
 

@@ -1,5 +1,7 @@
 package com.example.musiclovers.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import java.util.ArrayList;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import wseemann.media.FFmpegMediaMetadataRetriever;
 
 /**
  * DONE
@@ -165,10 +168,10 @@ public class playMusicFragment extends Fragment implements MainActivity.UpdateFr
     }
 
     @Override
-    public void updateSong(String songName, String artistName, String imgUrl) {
+    public void updateSong(String songName, String artistName) {
         play_music_SingerName.setText(artistName);
         play_music_SongName.setText(songName);
-        new DownloadImageTask((play_music_SongImg)).execute(base_Url + imgUrl);
+        play_music_SongImg.setImageBitmap(((MainActivity) getContext()).bmOnPlayingSong);
     }
 
     @Override
