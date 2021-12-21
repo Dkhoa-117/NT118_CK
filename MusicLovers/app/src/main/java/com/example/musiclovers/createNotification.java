@@ -27,6 +27,8 @@ public class createNotification extends AsyncTask<String, Void, Bitmap> {
     public static final String ACTION_PREVIOUS = "actionprevious";
     public static final String ACTION_PLAY = "actionplay";
     public static final String ACTION_NEXT = "actionnext";
+    public static final String ACTION_LIKE = "actionlike";
+
 
     Context context;
     String artistName, songName;
@@ -76,6 +78,17 @@ public class createNotification extends AsyncTask<String, Void, Bitmap> {
         PendingIntent pendingIntentPlay = PendingIntent.getBroadcast(context, 0,
                 intentPlay, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Intent intentLike = new Intent(context, NotificationActionService.class)
+                .setAction(ACTION_LIKE);
+        PendingIntent pendingIntentLike = PendingIntent.getBroadcast(context, 0,
+                intentLike, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent intentBackToApp = new Intent(context, MainActivity.class)
+                .setAction(Intent.ACTION_MAIN)
+                .addCategory(Intent.CATEGORY_LAUNCHER);
+        PendingIntent pendingIntentBackToApp = PendingIntent.getActivity(context, 0,
+                intentBackToApp, 0);
+
         PendingIntent pendingIntentNext;
         int btnForward;
         if (position == (size - 1)){
@@ -95,7 +108,8 @@ public class createNotification extends AsyncTask<String, Void, Bitmap> {
                 .addAction(btnBackward, "previous", pendingIntentPrevious)
                 .addAction(btnPlayOrPause, "play", pendingIntentPlay)
                 .addAction(btnForward, "next", pendingIntentNext)
-                .addAction(R.drawable.ic_unfill_heart, "like", null)
+                .addAction(R.drawable.ic_unfill_heart, "like", pendingIntentLike)
+                .setContentIntent(pendingIntentBackToApp)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1, 2))
                 .setLargeIcon(bitmap)
                 .setOnlyAlertOnce(true)
