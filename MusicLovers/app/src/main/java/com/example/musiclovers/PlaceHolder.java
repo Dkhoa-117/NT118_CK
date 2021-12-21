@@ -2,6 +2,7 @@ package com.example.musiclovers;
 
 import com.example.musiclovers.models.albumItem;
 import com.example.musiclovers.models.artistItem;
+import com.example.musiclovers.models.genreItem;
 import com.example.musiclovers.models.playlistItem;
 import com.example.musiclovers.models.songItem;
 import com.example.musiclovers.models.userItem;
@@ -20,7 +21,7 @@ import retrofit2.http.Query;
  * DONE
  */
 public interface PlaceHolder {
-    // 👇 GET 👇
+    // ðŸ‘‡ GET ðŸ‘‡
     @GET("songs")
     Call<List<songItem>> getSongs();
 
@@ -39,10 +40,10 @@ public interface PlaceHolder {
     @GET("songs/album/{albumId}")
     Call<List<songItem>> getSongsByAlbum (@Path("albumId") String albumId);
 
-    @GET("songs/{category}")
+    @GET("songs/category/{category}")
     Call<List<songItem>> getSongsByCategory (@Path("category") String category); //new-music * best-new-songs *
 
-    @GET("albums/{category}")
+    @GET("albums/category/{category}")
     Call<List<albumItem>> getAlbumsByCategory (@Path("category") String category); //new-albums * hot-albums *
 
     @GET("songs/artist/{artistId}")
@@ -60,11 +61,26 @@ public interface PlaceHolder {
     @GET("playlists/{userId}/{playlist_number}")
     Call<List<playlistItem>> getPlaylistByUser_PlaylistNum(@Path("userId") String userId, @Path("playlist_number") int playlist_number);
 
-    @GET("artists")
-    Call<List<artistItem>> getArtists();
+    @GET("artists/user/{userId}")
+    Call<List<artistItem>> getArtistsByUser(
+            @Path("userId") String userId
+    );
 
-    @GET("artists/{artistId}")
-    Call<artistItem> getArtist(@Path("artistId") String artistId);
+    @GET("artists/{userId}/{artistId}")
+    Call<artistItem> getArtist(
+            @Path("artistId") String artistId,
+            @Path("userId") String userId
+    );
+
+    @GET("genres/{genreId}/{userId}")
+    Call<List<songItem>> getUserGenres(
+            @Path("genreId") String genreId,
+            @Path("userId") String userId
+
+    );
+
+    @GET("genres")
+    Call<List<genreItem>> getGenres();
 
     @GET("songs/search")
     Call<List<songItem>> searchSongs (@Query("q") String q);
@@ -75,9 +91,9 @@ public interface PlaceHolder {
     @GET("artists/search")
     Call<List<artistItem>> searchArtists (@Query("q") String q);
 
-    // 👇 PATCH 👇
+    // ðŸ‘‡ PATCH ðŸ‘‡
 
-    // 👇 POST 👇
+    // ðŸ‘‡ POST ðŸ‘‡
     @FormUrlEncoded
     @POST("users/")
     Call<userItem> register(
@@ -115,13 +131,20 @@ public interface PlaceHolder {
     );
 
     @FormUrlEncoded
+    @POST("artists/likes")
+    Call<Void> likeArtist(
+            @Field("userId") String userId,
+            @Field("artistId") String artistId
+    );
+
+    @FormUrlEncoded
     @POST("songs/recent")
     Call<Void> addSong2RecentList(
             @Field("userId") String userId,
             @Field("songId") String songId
     );
 
-    // 👇 DELETE 👇
+    // ðŸ‘‡ DELETE ðŸ‘‡
     @DELETE("playlists/{playlistId}/songs/{songId}")
     Call<Void> removeSongInPlaylist(
             @Path("playlistId") String playlistId,

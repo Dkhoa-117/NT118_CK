@@ -51,13 +51,12 @@ public class playlistsFragment extends Fragment {
 
     public ArrayList<playlistItem> playlistItems = new ArrayList<>();
     PlaceHolder placeHolder;
-    ConstraintLayout createNewPlaylist;
     playlistAdapter adapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TransitionInflater inflater = TransitionInflater.from(requireContext());
-        setExitTransition(inflater.inflateTransition(R.transition.fade));
+        setEnterTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     @Nullable
@@ -119,13 +118,13 @@ public class playlistsFragment extends Fragment {
                                     adapter.notifyDataSetChanged();
                                     Toast.makeText(getContext(), "Playlist Deleted !", Toast.LENGTH_LONG).show();
                                 }else{
-                                    Toast.makeText(getContext(), "Error 😥", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Error ðŸ˜¥", Toast.LENGTH_LONG).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(getContext(), "Error 😥", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Error ðŸ˜¥", Toast.LENGTH_LONG).show();
                             }
                         });
                         return true;

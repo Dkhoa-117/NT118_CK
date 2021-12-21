@@ -48,7 +48,6 @@ public class playlistDetailFragment extends Fragment {
     public playlistItem playlist;
     PlaceHolder placeHolder;
     ViewModel viewModel;
-    TextView playlistOwner;
     ExtendedFloatingActionButton btnPlayAll;
     FloatingActionButton addSong;
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -58,19 +57,18 @@ public class playlistDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         TransitionInflater inflater = TransitionInflater.from(requireContext());
-        setExitTransition(inflater.inflateTransition(R.transition.fade));
+        setEnterTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_playlist_detail, container, false);
-        playlistOwner = v.findViewById(R.id.fragment_playlist_detail_PlaylistOwner);
         btnPlayAll = v.findViewById(R.id.fragment_playlist_detail_PLayBtn);
         addSong = v.findViewById(R.id.fragment_playlist_detail_AddSong);
         collapsingToolbarLayout = v.findViewById(R.id.fragment_playlist_detail_CollapsingToolbar);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
-        collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
+        collapsingToolbarLayout.setExpandedTitleColor(Color.rgb(138, 48, 57));
         viewModel = new ViewModelProvider(getActivity()).get(ViewModel.class);
         return v;
     }
@@ -83,7 +81,6 @@ public class playlistDetailFragment extends Fragment {
         viewModel.getSelectedPlaylist().observe(getViewLifecycleOwner(), playlistItem -> {
             playlist = playlistItem;
             CharSequence sequence = (playlistItem.getPlaylistName());
-            playlistOwner.setText(playlistItem.get_id());
             collapsingToolbarLayout.setTitle(sequence);
             ImageView playlistImg = view.findViewById(R.id.fragment_playlist_detail_PlaylistImg);
             mRecyclerView = view.findViewById(R.id.fragment_playlist_detail_PlaylistRecycleView);
