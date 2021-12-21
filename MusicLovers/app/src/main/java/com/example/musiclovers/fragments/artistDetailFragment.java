@@ -1,17 +1,19 @@
 package com.example.musiclovers.fragments;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.View.OnTouchListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -30,7 +32,9 @@ import com.example.musiclovers.listAdapter.songsListAdapter;
 import com.example.musiclovers.models.albumItem;
 import com.example.musiclovers.models.artistItem;
 import com.example.musiclovers.models.songItem;
+import com.example.musiclovers.signIn_signUpActivity.SaveSharedPreference;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +56,14 @@ public class artistDetailFragment extends Fragment {
     private PlaceHolder placeHolder;
     private ViewModel viewModel;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private FloatingActionButton btnLoveArtist;
     private String base_Url = "http://10.0.2.2:3000/";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TransitionInflater inflater = TransitionInflater.from(requireContext());
-        setExitTransition(inflater.inflateTransition(R.transition.fade));
+        setEnterTransition(inflater.inflateTransition(R.transition.fade));
     }
 
     @Nullable
@@ -75,6 +80,7 @@ public class artistDetailFragment extends Fragment {
         viewModel = new ViewModelProvider(getActivity()).get(ViewModel.class);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
         collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
+        btnLoveArtist = v.findViewById(R.id.fragment_artist_detail_loveArtist);
         return v;
     }
 
@@ -87,7 +93,13 @@ public class artistDetailFragment extends Fragment {
         viewModel.getSelectedArtist().observe(getViewLifecycleOwner(), artistItem -> {
             collapsingToolbarLayout.setTitle(artistItem.getArtistName());
             new DownloadImageTask(artistImg).execute(base_Url + artistItem.getArtistImg());
-
+            if(artistItem.isLiked()){
+                btnLoveArtist.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.shiraz_variant)));
+                btnLoveArtist.setImageResource(R.drawable.ic_fill_heart);
+            }else{
+                btnLoveArtist.setImageResource(R.drawable.ic_unfill_heart);
+                btnLoveArtist.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
+            }
             Call<List<albumItem>> callAlbums = placeHolder.getAlbumsByArtist(artistItem.get_id());
             callAlbums.enqueue(new Callback<List<albumItem>>() {
                 @Override
@@ -112,7 +124,7 @@ public class artistDetailFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<List<albumItem>> call, Throwable t) {
-                    //Toast.makeText(getContext(), "error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "error", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -140,9 +152,10 @@ public class artistDetailFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<List<songItem>> call, Throwable t) {
-                    Toast.makeText(getContext(), "error at songs", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
                 }
             });
+            loveArtist(artistItem);
         });
     }
 
@@ -241,5 +254,36 @@ public class artistDetailFragment extends Fragment {
                 childRecyclerView = itemView.findViewById(R.id.recyclerView);
             }
         }
+    }
+
+    void loveArtist(artistItem artist){
+        btnLoveArtist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<Void> call = placeHolder.likeArtist(SaveSharedPreference.getId(getContext()), artist.get_id());
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(response.isSuccessful()){
+                            if(response.code() == 200){ //unlike
+                                btnLoveArtist.setImageResource(R.drawable.ic_unfill_heart);
+                                btnLoveArtist.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
+                            }else if (response.code() == 201){
+                                btnLoveArtist.setImageResource(R.drawable.ic_fill_heart);
+                                btnLoveArtist.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.shiraz_variant)));
+                            }
+                        }else{
+                            Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
     }
 }
