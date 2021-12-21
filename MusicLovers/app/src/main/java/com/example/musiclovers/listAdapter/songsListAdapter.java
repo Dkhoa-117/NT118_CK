@@ -1,6 +1,8 @@
 package com.example.musiclovers.listAdapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import wseemann.media.FFmpegMediaMetadataRetriever;
 
 /**
  * DONE
@@ -70,8 +73,19 @@ public class songsListAdapter extends RecyclerView.Adapter<songsListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         songItem currentSong = songItems.get(position);
-        new DownloadImageTask(holder.image).execute(base_Url + currentSong.getSongImg());
-        holder.image.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        if(currentSong.get_id() != null){
+            new DownloadImageTask(holder.image).execute(base_Url + currentSong.getSongImg());
+            holder.image.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        }else{
+            FFmpegMediaMetadataRetriever retriever = new FFmpegMediaMetadataRetriever();
+            retriever.setDataSource(currentSong.getSongImg());
+            byte [] data = retriever.getEmbeddedPicture();
+            if (data != null){
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                holder.image.setImageBitmap(bitmap);
+            }
+            retriever.release();
+        }
         holder.artistName.setText(currentSong.getArtistName());
         holder.songName.setText(currentSong.getSongName());
         holder.itemView.setOnClickListener(view -> ((MainActivity) context).getSongs(songItems, holder.getAdapterPosition()));
@@ -79,7 +93,7 @@ public class songsListAdapter extends RecyclerView.Adapter<songsListAdapter.View
          * ------------------
          * REMOVE_PLAYLIST = 1
          * REMOVE_PLAYING_NEXT = 2
-         * ADD2PLAYING_NEXT / ADD2PLAYLIST = 3 (let user choose what they want)
+         * ADD2PLAYING_NEXT / ADD2PLAYLIST / LIKE / GO TO ARTIST = 3 (let user choose what they want)
          */
         holder.itemView.setOnLongClickListener(view -> {
             if(clickMode == 1){
@@ -99,13 +113,19 @@ public class songsListAdapter extends RecyclerView.Adapter<songsListAdapter.View
                 PopupMenu popup = new PopupMenu(context, view, Gravity.END);
                 popup.getMenuInflater().inflate(R.menu.long_click_song_option_menu, popup.getMenu());
                 popup.setOnMenuItemClickListener(item -> {
-                    if(item.getItemId() == R.id.add_to_playlist_songItem){
+                    if(item.getItemId() == R.id.song_opt_add_to_playlist){
                         ((MainActivity) context).addSongToPlaylist(songItems.get(position));
-                    }else if(item.getItemId() == R.id.play_next){
+                    }else if(item.getItemId() == R.id.song_opt_play_next){
                         ((MainActivity) context).songList.add(songItems.get(position));
                         ((playingNextFragment) MainActivity.playingNext).nextSongs.add(songItems.get(position));
                         ((playingNextFragment) MainActivity.playingNext).adapter.notifyDataSetChanged();
                         Toast.makeText(context, "Add Song To Playing Next", Toast.LENGTH_SHORT).show();
+                    }else if(item.getItemId() == R.id.song_opt_like){
+                        ((MainActivity) context).loveMeOrNot(songItems.get(position));
+                    }else if(item.getItemId() == R.id.song_opt_go_to_artist){
+                        ((MainActivity) context).goToArtistDetail(songItems.get(position));
+                    }else if(item.getItemId() == R.id.song_opt_go_to_album){
+                        ((MainActivity) context).goToAlbumDetail(songItems.get(position));
                     }
                     return true;
                 });
