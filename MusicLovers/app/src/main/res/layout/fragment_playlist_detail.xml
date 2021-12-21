@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- DONE -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_album_detail"
     android:layout_width="match_parent"
+    android:clickable="true"
     android:background="#EDC9D2"
     android:layout_height="match_parent">
 
@@ -32,18 +34,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:layout_gravity="center|end"
-                app:layout_collapseMode="parallax"
-                tools:src="@drawable/ic_fill_heart"/>
-
-            <TextView
-                android:id="@+id/fragment_playlist_detail_PlaylistOwner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Playlist Owner"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:layout_gravity="center|bottom"
-                android:layout_marginBottom="30dp"/>
+                app:layout_collapseMode="parallax"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/fragment_playlist_detail_Toolbar"
